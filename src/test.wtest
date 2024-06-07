@@ -1,0 +1,19 @@
+import plantas.*
+import parcelas.*
+
+describe "plantas"{
+
+const quinoa = new Quinoa(anioOrigen=2005,altura=1.4,toleranciaAlSol=6)
+const parcela = new Parcela(ancho=5,largo=3,horasDeSol=5)
+const menta = new Menta(anioOrigen=2005,altura=1.2)
+const soja = new Soja (anioOrigen=2005,altura=1.8)
+	
+	test "quinoa parcela ideal" {
+		assert.equals(3,parcela.cantMaxPlantas())
+		parcela.plantar(menta)
+		assert.that(quinoa.esIdeal(parcela)) //Ninguna mide más de 1.5mts
+		parcela.plantar(soja)
+		assert.notThat(quinoa.esIdeal(parcela)) //la Soja mide más de 1.5mts
+	}
+
+}
