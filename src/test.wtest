@@ -1,12 +1,17 @@
 import plantas.*
 import parcelas.*
 
-describe "plantas"{
+describe "plantas y parcelas"{
 
-const quinoa = new Quinoa(anioOrigen=2005,altura=1.4,toleranciaAlSol=6)
-const parcela = new Parcela(ancho=5,largo=3,horasDeSol=5)
+const parcela = new Parcela(ancho=5,largo=3,horasDeSol=9,tipoDeParcela="Ecológica")
+const quinoa = new Quinoa(anioOrigen=2005,altura=1.4,toleranciaAlSol=10)
 const menta = new Menta(anioOrigen=2005,altura=1.2)
 const soja = new Soja (anioOrigen=2005,altura=1.8)
+	
+	test "soja no es fuerte, es ideal para parcela"{
+		assert.notThat(soja.esFuerte())
+		assert.that(soja.esIdeal(parcela))
+	}
 	
 	test "quinoa parcela ideal" {
 		assert.equals(3,parcela.cantMaxPlantas())
@@ -16,4 +21,21 @@ const soja = new Soja (anioOrigen=2005,altura=1.8)
 		assert.notThat(quinoa.esIdeal(parcela)) //la Soja mide más de 1.5mts
 	}
 
+	test "plantar en parcela"{
+		parcela.plantar(soja)
+		parcela.plantar(quinoa)
+		parcela.plantar(menta)
+		assert.equals([soja,quinoa,menta], parcela.plantas())
+	}
+	
+	test "cantidad maxima de plantas en parcela"{
+		assert.equals(3,parcela.cantMaxPlantas())
+	}
+	
+	test "parcela sin complicaciones"{
+		parcela.plantar(quinoa)
+		parcela.plantar(soja)
+		assert.notThat(parcela.tieneComplicaciones())
+	}
+	
 }
